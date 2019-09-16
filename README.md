@@ -7,7 +7,7 @@ GPP(Graph-based Positive Prediction) is a simple GCN(Graph Convolution Network) 
 ## Requirements
 * python 3.6
 * pytorch >= 1.10
-* torch_geometric
+* ~~torch_geometric~~
 * pandas
 * numpy
 
