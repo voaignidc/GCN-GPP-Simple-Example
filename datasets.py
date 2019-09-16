@@ -63,14 +63,19 @@ class EdgeAttrCU(object):
     Get adjacency matrix 'edge_attr' according to similarity of each nodes,
     when graph is complete undirected.
     :v_feat: Features of nodes. Nv*Nf
-    :sample_feat: Feature of sample. Nf
     """
-    def __init__(self, v_feat, sample_feat=None):
-        if sample_feat is not None:
-            v_feat -= sample_feat
+    def __init__(self, v_feat): 
+        Nv = v_feat.size(0)
+        edge_attr = torch.zeros(Nv, Nv)
+        # Weighted Aggregation 
+        edge_attr = torch.mm(v_feat, v_feat.T)
+        for i in range(Nv):
+            for j in range(Nv):
+                if i==j:
+                    edge_attr[i, j] = 0
             
-        #Each row of A should be normalized by softmax function.
-        self.edge_attr = F.softmax(torch.mm(v_feat, v_feat.T), dim=-1) 
+        # Each row of A should be normalized by softmax function.
+        self.edge_attr = F.softmax(edge_attr, dim=-1) 
  
     def get_edge_attr(self):    
         return self.edge_attr        

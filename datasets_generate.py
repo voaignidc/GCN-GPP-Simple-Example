@@ -65,8 +65,8 @@ class MovementLib7Generate():
 
                
 if __name__ == "__main__":                
-    ml7g = MovementLib7Generate('E:/DataSet/cluster/Libras Movement Data Set 7/movement_libras.csv')
-    for i in range(30):
-        ml7g.write('E:/DataSet/cluster/Libras Movement Data Set 7/ML7_' + str(i) + '.csv')
+    ml7g = MovementLib7Generate('./input/movement_libras.csv')
+    for i in range(100):
+        ml7g.write('./input/ML7_' + str(i) + '.csv')
 
         

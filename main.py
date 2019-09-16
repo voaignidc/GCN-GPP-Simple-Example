@@ -29,17 +29,17 @@ def get_data(args):
     
     # ei = EdgeIndexCU(dataset.__len__())
     # edge_index = ei.get_edge_index()
-    ea = EdgeAttrCU(x)#, sample_feat=torch.randn(90,))
+    ea = EdgeAttrCU(x)
     edge_attr = ea.get_edge_attr()
 
     return x, y, edge_attr
 
 def train(args, model, optimizer, criterion):  
     model.train()
-    for _ in range(70):
+    for e in range(80):
         optimizer.zero_grad()
         loss = 0.
-        for dataset_i in range(30):  
+        for dataset_i in range(80):  
             #--- get train graph --- 
             args['dataset'] = './input/ML7_'+str(dataset_i)+'.csv'
             x, y, edge_attr = get_data(args) 
@@ -50,8 +50,8 @@ def train(args, model, optimizer, criterion):
             out = model(x, edge_attr)
             loss += criterion(out, y)
 
-        loss /= 30.
-        print(loss.item())    
+        loss /= 80.
+        print(e, loss.item())    
         loss.backward()
         optimizer.step()
     
@@ -64,9 +64,9 @@ def test(args, model):
 
     #--- eval test --- 
     model.eval()
-    pred = model(x, edge_attr)
-    print('pred=', pred)
-    print('y=', y)
+    pred = model(x, edge_attr).detach().cpu().numpy() > 0.5
+    print('pred=', pred+0)
+    print('   y=', y.long().detach().cpu().numpy())
     print(' ')
     
 if __name__ == "__main__": 
@@ -78,7 +78,7 @@ if __name__ == "__main__":
     train(args, model, optimizer, criterion)      
     print("-----------------------------------------")    
     
-    for i in range(10):
-        args['dataset'] = './input/ML7_'+str(i)+'.csv'
+    for i in range(20):
+        args['dataset'] = './input/ML7_'+str(80+i)+'.csv'
         test(args, model)  
     
