@@ -76,8 +76,6 @@ class EdgeAttrCU(object):
         return self.edge_attr        
                 
                 
-                
-                
 if __name__ == "__main__":                
     ei = EdgeIndexCU(6)
     edge_index = ei.get_edge_index()
